@@ -1,3 +1,4 @@
+{% load static %}
 
 <!-- header -->
 <header class="fixed-top header">
@@ -27,7 +28,7 @@
     <div class="navigation w-100">
       <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark p-0">
-          <a class="navbar-brand" href="index.html"><img src="static/images/logo.png" alt="logo"></a>
+          <a class="navbar-brand" href="index.html"><img src="{% static 'images/logo.png' %}" alt="logo"></a>
           <button class="navbar-toggler rounded-0" type="button" data-toggle="collapse" data-target="#navigation"
             aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -42,7 +43,7 @@
                 <a class="nav-link" href="about.html">About</a>
               </li>
               <li class="nav-item @@courses">
-                <a class="nav-link" href="courses.html">COURSES</a>
+                <a class="nav-link" href="{% url 'listcourses' %}">COURSES</a>
               </li>
               <li class="nav-item @@events">
                 <a class="nav-link" href="events.html">EVENTS</a>
