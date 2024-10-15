@@ -221,3 +221,23 @@ def password_reset_view(request):
 def profile_view(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     return render(request, 'profile.html', {'profile': profile})
+
+def edit_profile_view(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    
+    if request.method == "POST":
+        # Créez le formulaire avec les données du POST et l'instance de l'utilisateur
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        
+        if form.is_valid():
+            # Mettez à jour les informations du profil
+            profile = form.save(commit=False)
+            profile.user.username = form.cleaned_data['username']
+            profile.user.email = form.cleaned_data['email']
+            profile.user.save()  # Sauvegardez d'abord les informations de l'utilisateur
+            profile.save()  # Puis sauvegardez le profil
+            return redirect('profile')  # Redirigez vers la vue du profil
+    else:
+        form = UserProfileForm(instance=user_profile)
+
+    return render(request, 'authentication/edit_profile.html', {'form': form, 'user': request.user})

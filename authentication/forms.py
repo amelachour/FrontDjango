@@ -63,10 +63,24 @@ class SignUpForm(UserCreationForm):
         fields = ('username', 'email', 'password1', 'password2', 'face_image')
 
 class UserProfileForm(forms.ModelForm):
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Username",
+                "class": "form-control"
+            }
+        )
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder": "Email",
+                "class": "form-control"
+            }
+        )
+    )
+    face_image = forms.ImageField(required=False)  # Rendre facultatif si l'utilisateur ne veut pas changer l'image
+
     class Meta:
         model = UserProfile
-        fields = ['face_image']  # Assurez-vous que ce champ existe dans votre modèle
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ['face_image']
+        fields = ['username', 'email', 'face_image']  # Ajoutez 'username' et 'email'

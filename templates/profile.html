@@ -80,10 +80,11 @@
       </div>
 
       <div class="button-group">
-        <a href="{% url 'edit_user' user.id %}" class="btn btn-primary"
+        <a href="{% url 'edit_profile' %}" class="btn btn-primary"
           >Edit Profile</a
         >
-        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+
+        <a href="{% url 'index' %}" class="btn btn-danger">Cancel</a>
       </div>
     </div>
 
