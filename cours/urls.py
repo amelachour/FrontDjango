@@ -9,15 +9,11 @@ from django.conf.urls.static import static
 from . import views
 
 
-from .views import add_course, course_list ,update_course ,delete_course
+from .views import course_list 
 
 urlpatterns = [
     
-  path('add/', add_course, name='add_course'),
   path('listcourses/', course_list, name='listcourses'),
-  path('update/<int:pk>/', update_course, name='update_course'),
-    path('delete/<int:pk>/', delete_course, name='delete_course'),
+  path('courses/<int:course_id>/', views.course_detail, name='course_detail'),  
 
-]
-
-
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

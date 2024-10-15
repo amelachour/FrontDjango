@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-mcwai!pe_mnyysci#r4eoxovtl&c)3w%!4q#ari(d5@05ypfaq
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+TIME_ZONE = 'UTC'  # Change this to your timezone
+USE_TZ = True
 ALLOWED_HOSTS = []
 
 # Application definition
