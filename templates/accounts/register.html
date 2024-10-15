@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/bootstrap/bootstrap.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    {% include "header.html" %} {% include "nav.html" %}
+
+    <div class="container" style="margin-top: 250px; margin-bottom: 100px">
+      <h2 class="text-center">Register Now and Start Learning!</h2>
+
+      <!-- Create a row for the form and image -->
+      <div class="row align-items-center mt-5">
+        <!-- Left Column: Registration Form -->
+        <div class="col-md-6">
+          <div class="register">
+            <form method="POST" enctype="multipart/form-data" class="row">
+              {% csrf_token %}
+
+              <!-- Role Selection -->
+              <div class="col-12 mb-3 text-center">
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="role"
+                    id="roleTeacher"
+                    value="teacher"
+                    required
+                  />
+                  <label class="form-check-label" for="roleTeacher"
+                    >Teacher</label
+                  >
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="role"
+                    id="roleStudent"
+                    value="student"
+                    required
+                  />
+                  <label class="form-check-label" for="roleStudent"
+                    >Student</label
+                  >
+                </div>
+                <span class="text-error">{{ form.role.errors }}</span>
+              </div>
+
+              <!-- Name Field -->
+              <div class="col-12">
+                <input
+                  type="text"
+                  class="form-control mb-3"
+                  id="signupName"
+                  name="username"
+                  placeholder="Name"
+                  required
+                />
+              </div>
+
+              <!-- Email Field -->
+              <div class="col-12">
+                <input
+                  type="email"
+                  class="form-control mb-3"
+                  id="signupEmail"
+                  name="email"
+                  placeholder="Email"
+                  required
+                />
+                <span class="text-error">{{ form.email.errors }}</span>
+              </div>
+
+              <!-- Password Field -->
+              <div class="col-12">
+                <input
+                  type="password"
+                  class="form-control mb-3"
+                  id="signupPassword"
+                  name="password1"
+                  placeholder="Password"
+                  required
+                />
+                <span class="text-error">{{ form.password.errors }}</span>
+              </div>
+
+              <!-- Password Confirmation -->
+              <div class="col-12">
+                <input
+                  type="password"
+                  class="form-control mb-3"
+                  id="signupPasswordConfirm"
+                  name="password2"
+                  placeholder="Confirm Password"
+                  required
+                />
+                <span class="text-error">{{ form.password2.errors }}</span>
+              </div>
+
+              <!-- Profile Picture Upload -->
+              <div class="col-12">
+                <input
+                  type="file"
+                  name="face_image"
+                  accept="image/*"
+                  class="form-control mb-3"
+                  required
+                />
+                <span class="text-error">{{ form.face_image.errors }}</span>
+              </div>
+
+              <!-- Privacy Policy Agreement -->
+              <div class="col-12 mb-3">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    class="custom-control-input"
+                    id="customCheckRegister"
+                    type="checkbox"
+                    required
+                  />
+                  <label class="custom-control-label" for="customCheckRegister">
+                    <span class="text-muted">
+                      I agree with the <a href="#!">Privacy Policy</a>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary w-50">
+                  SIGN UP
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right Column: Image -->
+        <div class="col-md-6 text-center">
+          <img
+            src="{% static 'images/register.png' %}"
+            class="img-fluid"
+            alt="Register illustration"
+            style="max-width: 100%; height: auto; margin-left: 70px"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts nécessaires -->
+    {% include 'script.html'%} {% include 'footer.html'%}
+  </body>
+</html>
