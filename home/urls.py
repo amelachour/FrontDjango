@@ -1,11 +1,11 @@
 from django.urls import path, re_path
-from home import views
+from .views import home 
 
 urlpatterns = [
 
     # The home page
-    path('', views.home, name='home'),
-
+   
+ path('', home, name='index'),
     # Matches any html file
 
 ]

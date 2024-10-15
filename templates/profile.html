@@ -1,0 +1,96 @@
+{% load static %} {% include "header.html" %} {% include "nav.html" %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <!-- Link to your CSS file -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      .profile-container {
+        max-width: 800px;
+        margin: 250px auto;
+        padding: 20px;
+
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .profile-header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .profile-header img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 4px solid #007bff;
+      }
+      .profile-header h2 {
+        margin: 10px 0;
+        font-size: 24px;
+        color: #333;
+      }
+      .profile-header p {
+        color: #777;
+      }
+      .profile-info {
+        margin: 20px 0;
+      }
+      .profile-info h4 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #007bff;
+      }
+      .profile-info p {
+        font-size: 16px;
+        color: #555;
+      }
+      .button-group {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .button-group a {
+        margin: 0 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="profile-container">
+      <div class="profile-header">
+        <img
+          src="{{ user.userprofile.face_image.url }}"
+          alt="Profile Picture"
+          onerror="this.onerror=null; this.src='{% static 'images/default-profile.png' %}'"
+        />
+
+        <!-- Your profile picture -->
+        <h2>{{ user.username }}</h2>
+        <p>{{ user.email }}</p>
+      </div>
+
+      <div class="profile-info">
+        <h4>Contact Information</h4>
+        <p>Phone: {{user.phone}}</p>
+        <p>Address: {{user.adress}}</p>
+      </div>
+
+      <div class="button-group">
+        <a href="{% url 'edit_user' user.id %}" class="btn btn-primary"
+          >Edit Profile</a
+        >
+        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+
+  {% include 'footer.html'%} {% include 'script.html'%}
+</html>
