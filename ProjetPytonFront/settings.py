@@ -83,7 +83,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         
-        'NAME': r'C:\Users\User\Documents\5TWIN1\PYTHON\ProjetDjango\db.sqlite3',
+        'NAME': r'C:\Users\User\Desktop\projet python validation 24 octobre\ProjetDjango\db.sqlite3',
     }
 }
 

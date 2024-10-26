@@ -9,6 +9,13 @@
       href="{% static 'plugins/bootstrap/bootstrap.min.css' %}"
     />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <style>
+      #video {
+        width: 100%;
+        height: auto;
+        border: 2px solid #ccc;
+      }
+    </style>
   </head>
   <body>
     {% include "header.html" %} {% include "nav.html" %}
@@ -17,14 +24,10 @@
       <h3 class="justify-content-center text-center">
         Log in and choose your course!
       </h3>
-
-      <!-- Create a row for the login form and image -->
       <div class="row align-items-center mt-5">
-        <!-- Left Column: Login Form -->
         <div class="col-md-6">
-          <form method="POST" action="{% url 'login' %}" class="row">
+          <form id="login-form" method="POST" action="{% url 'login' %}">
             {% csrf_token %}
-
             <div class="col-12 justify-content-center text-center">
               <input
                 type="text"
@@ -35,7 +38,6 @@
                 required
               />
             </div>
-
             <div class="col-12 justify-content-center text-center">
               <input
                 type="password"
@@ -46,7 +48,6 @@
                 required
               />
             </div>
-
             {% if error_message %}
             <div class="col-12">
               <div class="alert alert-danger" role="alert">
@@ -54,26 +55,134 @@
               </div>
             </div>
             {% endif %}
-
             <div class="col-12 text-center">
               <button type="submit" class="btn btn-primary w-50">LOGIN</button>
             </div>
           </form>
+          <div class="text-center mt-4">
+            <button id="startRecognition" class="btn btn-success">
+              Start Face Recognition
+            </button>
+          </div>
         </div>
-
-        <!-- Right Column: Image -->
         <div class="col-md-6 text-center">
-          <img
-            src="{% static 'images/login.png' %}"
-            class="img-fluid"
-            alt="Login illustration"
-            style="max-width: 100%; height: auto"
-          />
+          <video id="video" autoplay style="display: none"></video>
+          <canvas id="canvas" style="display: none"></canvas>
         </div>
       </div>
     </div>
 
-    <!-- Scripts nécessaires -->
+    <script>
+      const video = document.getElementById("video");
+      const canvas = document.getElementById("canvas");
+      let recognitionInterval;
+      let stream;
+
+      function convertToGrayscale(imageData) {
+        const grayCanvas = document.createElement("canvas");
+        grayCanvas.width = canvas.width;
+        grayCanvas.height = canvas.height;
+        const ctx = grayCanvas.getContext("2d");
+        ctx.drawImage(canvas, 0, 0);
+
+        const imgData = ctx.getImageData(
+          0,
+          0,
+          grayCanvas.width,
+          grayCanvas.height
+        );
+        const data = imgData.data;
+
+        for (let i = 0; i < data.length; i += 4) {
+          const avg = (data[i] + data[i + 1] + data[i + 2]) / 3; // Average calculation
+          data[i] = avg; // Red
+          data[i + 1] = avg; // Green
+          data[i + 2] = avg; // Blue
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+        return grayCanvas.toDataURL("image/png"); // or another supported format
+      }
+
+      function startFaceRecognition() {
+        navigator.mediaDevices
+          .getUserMedia({ video: true })
+          .then((mediaStream) => {
+            stream = mediaStream;
+            video.srcObject = stream;
+            video.style.display = "block"; // Show the video
+            console.log("Camera successfully activated."); // Debug log
+          })
+          .catch((err) => {
+            console.error("Error accessing the camera: ", err); // Debug log
+            alert(
+              "Unable to access the camera. Please check your permissions."
+            );
+          });
+
+        recognitionInterval = setInterval(() => {
+          if (video.readyState === video.HAVE_ENOUGH_DATA) {
+            const context = canvas.getContext("2d");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Directly capture the image as RGB (without grayscale conversion)
+            const dataURL = canvas.toDataURL("image/png");
+            console.log("Captured Image Data URL:", dataURL); // Debug log
+
+            fetch("{% url 'face_recognition_login' %}", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",
+              },
+              body: JSON.stringify({ image: dataURL }),
+            })
+              .then((response) => {
+                console.log("Server response received:", response); // Debug log
+                if (!response.ok) {
+                  throw new Error(
+                    "Network response was not ok: " + response.statusText
+                  );
+                }
+                return response.json();
+              })
+              .then((data) => {
+                console.log("Response data:", data); // Debug log
+                if (data.success) {
+                  clearInterval(recognitionInterval); // Stop capturing if successful
+                  stopCamera(); // Stop the camera
+                  window.location.href = "{% url 'index' %}"; // Redirect
+                } else {
+                  alert(data.message || "Sorry, user not authenticated.");
+                  stopCamera(); // Stop the camera
+                }
+              })
+              .catch((err) => {
+                console.error("Error during recognition:", err); // Debug log
+                stopCamera(); // Stop the camera
+                window.location.reload(); // Refresh the page on error
+              });
+          }
+        }, 1000); // Capture the frame every second
+      }
+
+      function stopCamera() {
+        clearInterval(recognitionInterval); // Stop capturing frames
+        if (stream) {
+          const tracks = stream.getTracks();
+          tracks.forEach((track) => track.stop()); // Stop all tracks (video/audio)
+        }
+        video.style.display = "none"; // Hide the video element
+        console.log("Camera stopped."); // Debug log
+      }
+
+      document
+        .getElementById("startRecognition")
+        .addEventListener("click", startFaceRecognition);
+    </script>
+
     {% include 'script.html' %} {% include 'footer.html' %}
   </body>
 </html>
