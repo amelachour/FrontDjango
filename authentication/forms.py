@@ -40,6 +40,46 @@ class SignUpForm(UserCreationForm):
             }
         )
     )
+    first_name = forms.CharField(
+        max_length=30,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "First Name",
+                "class": "form-control"
+            }
+        )
+    )
+    last_name = forms.CharField(
+        max_length=30,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Last Name",
+                "class": "form-control"
+            }
+        )
+    )
+    phone = forms.CharField(
+        max_length=15,
+        required=False, 
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Phone Number",
+                "class": "form-control"
+            }
+        )
+    )
+    address = forms.CharField(
+        max_length=255,
+        required=False,  
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Address",
+                "class": "form-control"
+            }
+        )
+    )
     password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
@@ -58,29 +98,17 @@ class SignUpForm(UserCreationForm):
     )
     face_image = forms.ImageField(required=True)
 
+    teaching_subject = forms.CharField(max_length=100, required=False)
+    about_me = forms.CharField(widget=forms.Textarea, required=False)
+
     class Meta:
-        model = User
-        fields = ('username', 'email', 'password1', 'password2', 'face_image')
+        model = User  
+        fields = ['username', 'email', 'first_name', 'last_name', 'phone', 'address', 'password1', 'password2', 'face_image', 'teaching_subject', 'about_me']
+
 
 class UserProfileForm(forms.ModelForm):
-    username = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Username",
-                "class": "form-control"
-            }
-        )
-    )
-    email = forms.EmailField(
-        widget=forms.EmailInput(
-            attrs={
-                "placeholder": "Email",
-                "class": "form-control"
-            }
-        )
-    )
-    face_image = forms.ImageField(required=False)  # Rendre facultatif si l'utilisateur ne veut pas changer l'image
-
     class Meta:
         model = UserProfile
-        fields = ['username', 'email', 'face_image']  # Ajoutez 'username' et 'email'
+        fields = ['face_image', 'teaching_subject', 'about_me' ,'address','phone']  
+
+
