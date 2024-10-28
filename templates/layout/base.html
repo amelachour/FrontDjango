@@ -1,0 +1,42 @@
+<!-- templates/layout/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}  <!-- Load static files -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Your Project{% endblock %}</title>
+
+    <!-- Include CSS files here -->
+   <link rel="stylesheet" href="{% static 'plugins/bootstrap/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <!-- Header Section -->
+    {% include 'header.html' %}
+
+    <!-- Navbar Section -->
+    {% include 'nav.html' %}
+
+    <!-- Main Content Section -->
+    <div class="container mt-5">
+        {% block content %}
+        <!-- Page specific content will be inserted here -->
+        {% endblock %}
+    </div>
+
+    <!-- Footer Section -->
+    {% include 'footer.html' %}
+
+    <!-- Include JavaScript files here -->
+    <!-- Include JavaScript files here -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/4pbv7FeOisf6NHk4F1pf1W4k7l1p92swkfeOg+" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-rbsA2VBKQ2Bw5Ff7ZUh/t+ty7ZlZpbN8LbK7PB54wt1NpQ2vV8c4l6NfAzKgt7BT" crossorigin="anonymous"></script>
+<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+
+</html>

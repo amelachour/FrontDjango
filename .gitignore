@@ -1,0 +1,116 @@
+
+# Fichiers système spécifiques
+*.DS_Store
+*.swp
+*.swo
+Thumbs.db
+Desktop.ini
+
+# Environnement virtuel
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Fichiers de configuration sensibles
+*.env
+*.secret
+
+# Fichiers de logs
+*.log
+*.log.*
+logs/
+*.out
+
+# Clés et certificats
+*.pem
+
+# Dépendances Python
+*.egg-info/
+*.egg
+pip-log.txt
+
+# PyInstaller
+# N'incluez pas ces fichiers/fichiers générés par PyInstaller
+*.spec
+
+# Cache Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+.pytest_cache/
+
+# Fichiers de configuration IDE/éditeur
+.vscode/
+.idea/
+*.iml
+
+# Base de données SQLite (si vous utilisez SQLite pour le développement local)
+db.sqlite3
+
+# Fichiers de migrations générés
+migrations/
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Fichiers statiques générés
+staticfiles/
+static/
+
+# Collecte de fichiers statiques
+collected_static/
+
+# Fichiers Media téléchargés par l'utilisateur
+media/
+
+# Configuration de JetBrains IDEs
+*.ipr
+*.iws
+.idea/
+
+# Profilage Django
+*.coverage
+.tox/
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+
+# Node modules si votre projet inclut des assets front-end
+node_modules/
+
+# Caches spécifiques Django
+*.pot
+*.mo
+
+# Rapport HTML (par exemple avec pytest)
+htmlcov/
+
+# Paramètres locaux qui ne devraient pas être partagés
+local_settings.py
+
+# Anaconda
+.conda/
+.condarc
+*.conda
+*.ipynb_checkpoints/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# JetBrains project files
+/.idea/
+
+# Celery beat schedule files
+celerybeat-schedule
+
+# Backup files (e.g. myfile~)
+*~
+
+# Configuration spécifique pour PyCharm, IntelliJ, VS Code, etc.
+*.code-workspace
+__pycache__/
+

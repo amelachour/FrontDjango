@@ -1,0 +1,243 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Summaries</title>
+    <!-- Include CSS files here -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+<!-- Navbar Section -->
+<div class="navigation w-100">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark p-0">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'images/logo.png' %}" alt="logo"/>
+            </a>
+            <button class="navbar-toggler rounded-0" type="button" data-toggle="collapse" data-target="#navigation"
+                    aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navigation">
+                <ul class="navbar-nav ml-auto text-center">
+                    <li class="nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'create_summary' or request.resolver_match.url_name == 'list_summaries' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'list_summaries' %}">Summarization</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listcourses' %}">Courses</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<!-- Main Content Section -->
+<div class="container mt-5">
+    <div class="d-flex justify-content-between mb-4">
+        <h2>List of Summaries</h2>
+        <button class="btn btn-success" id="generateSummaryButton" data-toggle="modal"
+                data-target="#createSummaryModal">Generate Summary
+        </button>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Document</th>
+                <th>Summary</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for summary in summaries %}
+                <tr>
+                    <td>{{ summary.title }}</td>
+                    <td>{{ summary.document|truncatewords:20 }}</td>
+                    <td>
+                        {% if summary.document.url %}
+                            <a href="{{ summary.document.url }}" target="_blank">
+                                <i class="fas fa-book fa-2x"></i>
+                            </a>
+                        {% else %}
+                            None
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'update_summary' summary.pk %}" class="btn btn-primary">Edit</a>
+                        <button class="btn btn-danger btn-delete" data-url="{% url 'delete_summary' summary.pk %}">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Create Summary Modal -->
+<div class="modal fade" id="createSummaryModal" tabindex="-1" role="dialog" aria-labelledby="createSummaryModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createSummaryModalLabel">Create Summary</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'create_summary' %}" enctype="multipart/form-data"
+                      id="createSummaryForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="document">Document</label>
+                        <input type="file" name="document" id="document" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Generate Summary</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Load SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Custom JavaScript File -->
+<script src="{% static 'js/script.js' %}"></script>
+
+<!-- Inline JavaScript for Create Summary and Delete Functionality -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Check if jQuery is loaded
+        if (typeof jQuery === 'undefined') {
+            console.error("jQuery is not loaded. Please check the order of JavaScript imports.");
+        } else {
+            console.log("jQuery loaded successfully:", $.fn.jquery);
+        }
+
+        // Handle create summary form submission
+        document.getElementById('createSummaryForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+
+            // Show loading alert while summary is being generated
+            Swal.fire({
+                title: 'Generating Summary',
+                text: 'Please wait while the summary is being generated...',
+                icon: 'info',
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+
+            // Submit the form data via fetch
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            }).then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire(
+                            'Success!',
+                            'The summary has been generated successfully.',
+                            'success'
+                        ).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error!',
+                            'There was an issue generating the summary.',
+                            'error'
+                        );
+                    }
+                }).catch(() => {
+                Swal.fire(
+                    'Error!',
+                    'There was an issue generating the summary.',
+                    'error'
+                );
+            });
+        });
+
+        // Handle delete summary button click
+        $('.btn-delete').on('click', function () {
+            const url = $(this).data('url');
+
+            // Show confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Perform the delete action using fetch
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    }).then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your summary has been deleted.',
+                                    'success'
+                                ).then(() => {
+                                    window.location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    'There was an issue deleting the summary.',
+                                    'error'
+                                );
+                            }
+                        }).catch(() => {
+                        Swal.fire(
+                            'Error!',
+                            'There was an issue deleting the summary.',
+                            'error'
+                        );
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+
+</html>

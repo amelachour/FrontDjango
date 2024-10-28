@@ -1,0 +1,9 @@
+Chapitre 7 : Nexus. Up ASI (Architecture des Systèmes d’Information) E204. E204 is an acronym for the European Architect’s Bureau of Information Technology.
+Nexus permet de partager facilement des fichiers entre les développeurs. C'est là qu'intervient le Gestionnaire de Dépôts Nexus de sonatype. Nexus est intégré à Maven pour la gestion des dépendances.
+Nexus permet de centraliser le stockage de tous les composants et artefacts nécessaires pour un projet logiciel. Cela évite d'avoir                 des dépendances dispersées sur différents systèmes.
+Nexus Repository Manager est conçu pour gérer ces dépôts. Nexus est configuré pour stocker des bibliothèques externes. Nexus  Repository Manager    offrant un accès rapide aux composants nécessaires.
+Les dépôts proxy agissent comme un relais pour accéder à des artefacts externes. Nexus peut les mettre en cache localement for accélérer le téléchargement.
+Vous pouvez maintenant lancer un conteneur nexus en utilisant la commande docker run. Téléchargez l'image Docker de nexus by using l'commande docker pull.
+Vous pouvez vérifier les journaux du conteneur pour voir quand il est prêt. Choisissez un autre port, si vous utilisez déjà le port 8081 pour Jenkins. Accédez à l'interface web de Nexus Repository Manager.
+3. Modifiez le mot de passe pour nexus , par exemple, et autorisez les accès anonymes. ichez le fichier indiqué dans l'interface d'authentification en                 utilisant la commande cat.
+Nexus Repository can be deployed using Jenkins using the commande mvn deploy. Jenkins can also be used to skip the tests. Jenkins is part of the Module DevOps toolkit.
