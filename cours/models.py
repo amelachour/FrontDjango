@@ -4,7 +4,7 @@ from django.utils import timezone
 class Cours(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
-    file = models.FileField(upload_to='courses/')
+    file = models.FileField(upload_to='courses/', blank=True, null=True)
     date_posted = models.DateTimeField(default=timezone.now)  
 
     def __str__(self):

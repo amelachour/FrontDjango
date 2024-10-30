@@ -1,163 +1,152 @@
 {% load static %}
 
 <!DOCTYPE html>
-<!DOCTYPE html>
-
-<!--
- // WEBSITE: https://themefisher.com
- // TWITTER: https://twitter.com/themefisher
- // FACEBOOK: https://www.facebook.com/themefisher
- // GITHUB: https://github.com/themefisher/
--->
-
 <html lang="en">
-  {% include "header.html" %}
 
+{% include "header.html" %}
 
 <body>
   <!-- preloader start -->
   <div class="preloader">
-    <img src="{%static 'images/preloader.gif' %}" alt="preloader">
+    <img src="{% static 'images/preloader.gif' %}" alt="preloader">
   </div>
   <!-- preloader end -->
 
-
   {% include "nav.html" %}
 
-  
-<!-- Modal -->
-<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Modal -->
+  <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content rounded-0 border-0 p-4">
-            <div class="modal-header border-0">
-                <h3>Register</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="login">
-                    <form action="#" class="row">
-                        <div class="col-12">
-                            <input type="text" class="form-control mb-3" id="signupPhone" name="signupPhone" placeholder="Phone">
-                        </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control mb-3" id="signupName" name="signupName" placeholder="Name">
-                        </div>
-                        <div class="col-12">
-                            <input type="email" class="form-control mb-3" id="signupEmail" name="signupEmail" placeholder="Email">
-                        </div>
-                        <div class="col-12">
-                            <input type="password" class="form-control mb-3" id="signupPassword" name="signupPassword" placeholder="Password">
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary">SIGN UP</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+      <div class="modal-content rounded-0 border-0 p-4">
+        <div class="modal-header border-0">
+          <h3>Register</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-    </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content rounded-0 border-0 p-4">
-            <div class="modal-header border-0">
-                <h3>Login</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="#" class="row">
-                    <div class="col-12">
-                        <input type="text" class="form-control mb-3" id="loginPhone" name="loginPhone" placeholder="Phone">
-                    </div>
-                    <div class="col-12">
-                        <input type="text" class="form-control mb-3" id="loginName" name="loginName" placeholder="Name">
-                    </div>
-                    <div class="col-12">
-                        <input type="password" class="form-control mb-3" id="loginPassword" name="loginPassword" placeholder="Password">
-                    </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary">LOGIN</button>
-                    </div>
-                </form>
-            </div>
+        <div class="modal-body">
+          <div class="login">
+            <form action="#" class="row">
+              <div class="col-12">
+                <input type="text" class="form-control mb-3" id="signupPhone" name="signupPhone" placeholder="Phone">
+              </div>
+              <div class="col-12">
+                <input type="text" class="form-control mb-3" id="signupName" name="signupName" placeholder="Name">
+              </div>
+              <div class="col-12">
+                <input type="email" class="form-control mb-3" id="signupEmail" name="signupEmail" placeholder="Email">
+              </div>
+              <div class="col-12">
+                <input type="password" class="form-control mb-3" id="signupPassword" name="signupPassword" placeholder="Password">
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">SIGN UP</button>
+              </div>
+            </form>
+          </div>
         </div>
-    </div>
-</div>
-
-<!-- page title -->
-<section class="page-title-section overlay" data-background="{% static 'images/backgrounds/page-title.jpg' %}">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <ul class="list-inline custom-breadcrumb mb-2">
-          <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="{% url 'listcourses' %}">Our Courses</a></li>
-          <li class="list-inline-item text-white h3 font-secondary nasted">{{ course.title }}</li>
-        </ul>
-        <p class="text-lighten mb-0">Our courses offer a good compromise between the continuous assessment favoured by some universities and the emphasis placed on final exams by others.</p>
       </div>
     </div>
   </div>
-</section>
-<!-- /page title -->
 
-<!-- section -->
-<section class="section-sm">
-  <div class="container">
-    <div class="row">
-      <div class="col-12 mb-4">
-        <!-- course thumb -->
-        <img src="{% static 'images/courses/course-single.jpg'%}" class="img-fluid w-100">
+  <!-- Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content rounded-0 border-0 p-4">
+        <div class="modal-header border-0">
+          <h3>Login</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="#" class="row">
+            <div class="col-12">
+              <input type="text" class="form-control mb-3" id="loginPhone" name="loginPhone" placeholder="Phone">
+            </div>
+            <div class="col-12">
+              <input type="text" class="form-control mb-3" id="loginName" name="loginName" placeholder="Name">
+            </div>
+            <div class="col-12">
+              <input type="password" class="form-control mb-3" id="loginPassword" name="loginPassword" placeholder="Password">
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary">LOGIN</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-    <!-- course info -->
-    <div class="row align-items-center mb-5">
-      <div class="col-xl-3 order-1 col-sm-6 mb-4 mb-xl-0">
-        <h2>{{ course.title }}</h2>
+  </div>
+
+  <!-- page title -->
+  <section class="page-title-section overlay" data-background="{% static 'images/backgrounds/page-title.jpg' %}">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <ul class="list-inline custom-breadcrumb mb-2">
+            <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="{% url 'listcourses' %}">Our Courses</a></li>
+            <li class="list-inline-item text-white h3 font-secondary nasted">{{ course.title }}</li>
+          </ul>
+          <p class="text-lighten mb-0">Our courses offer a good compromise between the continuous assessment favoured by some universities and the emphasis placed on final exams by others.</p>
+        </div>
       </div>
-      <div class="col-xl-6 order-sm-3 order-xl-2 col-12 order-2">
-        <ul class="list-inline text-xl-center">
+    </div>
+  </section>
+  <!-- /page title -->
+
+  <!-- section -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 mb-4">
+          <!-- course thumb -->
+          <img src="{% static 'images/courses/course-single.jpg' %}" class="img-fluid w-100">
+        </div>
+      </div>
+      <!-- course info -->
+      <div class="row align-items-center mb-5">
+        <div class="col-xl-3 order-1 col-sm-6 mb-4 mb-xl-0">
+          <h2>{{ course.title }}</h2>
+        </div>
+        <div class="col-xl-6 order-sm-3 order-xl-2 col-12 order-2">
+          <ul class="list-inline text-xl-center">
+            <li class="list-inline-item mr-4 mb-3 mb-sm-0">
+              <div class="d-flex align-items-center">
+                <i class="ti-alarm-clock text-primary icon-md mr-2"></i>
+                <div class="text-left">
+                  <h6 class="mb-0">DATE POSTED</h6>
+                  <p class="mb-0">{{ course.date_posted|date:"F j, Y" }}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-xl-3 text-sm-right text-left order-sm-2 order-3 order-xl-3 col-sm-6 mb-4 mb-xl-0">
           <li class="list-inline-item mr-4 mb-3 mb-sm-0">
             <div class="d-flex align-items-center">
-              <i class="ti-alarm-clock text-primary icon-md mr-2"></i>
+              <i class="ti-file text-primary icon-md mr-2"></i>
               <div class="text-left">
-                <h6 class="mb-0">DATE POSTED</h6>
-                <p class="mb-0">{{ course.date_posted|date:"F j, Y" }}</p>
+                <h6 class="mb-0">COURSE FILE</h6>
+                <p class="mb-0"><a href="{{ course.file.url }}">Download</a></p>
               </div>
             </div>
           </li>
-         
-        </ul>
+        </div>
+        <!-- border -->
+        <div class="col-12 mt-4 order-4">
+          <div class="border-bottom border-primary"></div>
+        </div>
       </div>
-      <div class="col-xl-3 text-sm-right text-left order-sm-2 order-3 order-xl-3 col-sm-6 mb-4 mb-xl-0">
-        <li class="list-inline-item mr-4 mb-3 mb-sm-0">
-          <div class="d-flex align-items-center">
-            <i class="ti-file text-primary icon-md mr-2"></i>
-            <div class="text-left">
-              <h6 class="mb-0">COURSE FILE</h6>
-              <p class="mb-0"><a href="{{ course.file.url }}">Download</a></p>
-            </div>
-          </div>
-        </li>
-  </div>
-      <!-- border -->
-      <div class="col-12 mt-4 order-4">
-        <div class="border-bottom border-primary"></div>
-      </div>
-    </div>
-    <!-- course details -->
-    <div class="row">
-      <div class="col-12 mb-4">
-        <h3>About Course</h3>
-        <p>{{ course.description }}</p>
+      <!-- course details -->
+      <div class="row">
+        <div class="col-12 mb-4">
+          <h3>About Course</h3>
+          <p>{{ course.description }}</p>
+        </div>
 
-      </div>
-      
-      <!-- teacher -->
+
+        <!-- teacher -->
       <div class="col-12">
         <h5 class="mb-3">Teacher</h5>
         <div class="d-flex justify-content-between align-items-center flex-wrap">
@@ -180,19 +169,136 @@
         </div>
         <div class="border-bottom border-primary mt-4"></div>
       </div>
+
+        <!-- Bouton pour générer le quiz -->
+        <div class="row">
+          <div class="col-12 mb-4">
+            <button id="generate-quiz-btn" data-course-id="{{ course.id }}" class="btn btn-primary">
+              <i class="fas fa-plus"></i> Générer un quiz
+            </button>
+          </div>
+
+          <!-- Conteneur pour afficher les questions générées -->
+          <div class="row">
+            <div class="col-12 mb-4">
+              <div id="quiz-container"></div>
+            </div>
+
+            <script>
+              document.getElementById('generate-quiz-btn').addEventListener('click', function () {
+                const courseId = this.getAttribute('data-course-id');
+
+                fetch(`/cours/courses/${courseId}/generate_quiz/`)
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log(data); 
+                    const quizContainer = document.getElementById('quiz-container');
+                    quizContainer.innerHTML = ''; 
+
+                    if (data.questions && Array.isArray(data.questions) && data.questions.length > 0) {
+                      data.questions.forEach((item, index) => {
+                        const questionElement = document.createElement('div'); 
+                        const questionText = document.createElement('p'); 
+                        questionText.textContent = `${index + 1}. ${item.question}`; 
+                        questionElement.appendChild(questionText); 
+
+                        const optionsList = document.createElement('ul');
+                        item.options.forEach((option, optionIndex) => {
+                          const optionItem = document.createElement('li'); 
+                          const checkbox = document.createElement('input'); 
+                          checkbox.type = 'checkbox';
+                          checkbox.value = option;
+                          checkbox.id = `option-${index}-${optionIndex}`; 
+
+                          const label = document.createElement('label'); 
+                          label.htmlFor = checkbox.id; 
+                          label.textContent = option; 
+
+                          optionItem.appendChild(checkbox);
+                          optionItem.appendChild(label); 
+                          optionsList.appendChild(optionItem); 
+                        });
+
+                        questionElement.appendChild(optionsList); 
+                        quizContainer.appendChild(questionElement); 
+                      });
+
+                      const submitButton = document.createElement('button');
+                      submitButton.textContent = 'Évaluer le Quiz';
+                      submitButton.className = 'btn btn-primary';
+                      submitButton.addEventListener('click', function () {
+                        evaluateAnswers(data.questions);
+                      });
+
+                      quizContainer.appendChild(submitButton); 
+                    } else {
+                      quizContainer.innerHTML = '<p>Aucune question générée.</p>';
+                    }
+                  })
+                  .catch(error => console.error('Erreur lors de la récupération du quiz:', error));
+              });
+
+              function evaluateAnswers(questions) {
+                let score = 0; 
+
+                questions.forEach((item, index) => {
+                  const correctAnswer = item.correct_answer; 
+                  const questionElement = document.querySelector(`#quiz-container div:nth-child(${index + 1})`);
+                  const options = questionElement.querySelectorAll('input[type="checkbox"]');
+                  let userAnsweredCorrectly = false;
+
+                  options.forEach(option => {
+                    const label = option.parentElement;
+                    const userAnswer = option.checked;
+
+                    if (userAnswer && option.value === correctAnswer) {
+                      label.style.color = 'green'; 
+                      userAnsweredCorrectly = true;
+                      score += 1; 
+                    } else if (userAnswer) {
+                      label.style.color = 'red'; 
+                    } else {
+                      label.style.color = ''; 
+                    }
+                  });
+
+                  const answerElement = document.createElement('p');
+                  answerElement.textContent = `Réponse correcte : ${correctAnswer}`;
+                  answerElement.style.color = 'blue'; 
+                  questionElement.appendChild(answerElement); 
+                });
+
+                const totalQuestions = questions.length;
+                const percentageScore = (score / totalQuestions) * 100;
+
+                document.getElementById('score-text').textContent = `Votre score : ${score} / ${totalQuestions} (${percentageScore.toFixed(2)}%)`;
+                document.getElementById('score-display').style.display = 'block'; 
+              }
+            </script>
+
+            <div id="score-display" class="score-display" style="display: none;">
+              <h4>Résultat du Quiz</h4>
+              <p id="score-text"></p>
+            </div>
+
+            <style>
+              .score-display {
+                margin-top: 20px;
+                padding: 15px;
+                background-color: #f8f9fa; 
+                border: 1px solid #007bff; 
+                border-radius: 5px;
+                text-align: center;
+              }
+            </style>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
-<!-- /section -->
+  </section>
+  <!-- /section -->
 
-
-
-
-
-
-
-{% include 'footer.html'%}
-
-{% include 'script.html'%}
+  {% include "footer.html" %}
+  {% include "script.html" %}
 </body>
 </html>

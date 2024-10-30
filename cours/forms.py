@@ -7,3 +7,7 @@ class CourseForm(forms.ModelForm):
         fields = ['title', 'description', 'file']
     
    
+from django import forms
+
+class QuizForm(forms.Form):
+    answers = forms.JSONField()  
