@@ -46,13 +46,11 @@
         <td>{{ user.username }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.userprofile.role }}</td>  <!-- Use user.userprofile to access role -->
-        <td>
-          {% if user.userprofile.face_image %}
-          <img src="{{ user.userprofile.face_image.url }}" alt="Photo de {{ user.username }}" style="width: 80px; height: 80px; border-radius: 50%">
-          {% else %}
-          <img src="{% static 'images/default_image.png' %}" alt="Photo de {{ user.username }}" style="width: 80px; height: 80px; border-radius: 50%">
-          {% endif %}
-        </td>
+        <img src="{{ user.userprofile.face_image.url }}" alt="Photo de {{ user.username }}" 
+        style="width: 80px; height: 80px; border-radius: 50%">
+   <!-- Add this debug line to check paths -->
+   <p>{{ user.userprofile.face_image.url }}</p>
+   
 
         <td>
           <button class="btn btn-danger" title="Supprimer" data-toggle="modal" data-target="#deleteModal{{ user.id }}">

@@ -1,0 +1,293 @@
+
+
+
+{% load static %}
+
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html lang="en">
+  {% include "header.html" %}
+<style>
+ .recommendations-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px; /* Espace entre les cartes, augmenté */
+    justify-content: center; /* Centre les cartes */
+    margin-top: 40px; /* Espace au-dessus de la liste */
+    margin-left: 260px;
+}
+
+.recommendation-card {
+    border: 1px solid #ccc; /* Bordure */
+    border-radius: 12px; /* Coins arrondis */
+    padding: 20px; /* Espacement interne augmenté */
+    background-color: #eea914; /* Fond clair */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Ombre plus prononcée */
+    width: 300px; /* Largeur des cartes augmentée */
+    text-align: center; /* Centre le texte */
+    transition: transform 0.3s ease; /* Transition plus fluide pour l'animation */
+}
+
+.recommendation-card:hover {
+    transform: scale(1.05); /* Agrandit la carte au survol */
+}
+
+.recommendation-text {
+    font-size: 20px; /* Taille de la police augmentée */
+    margin-bottom: 15px; /* Espacement en bas du texte */
+    font-weight: bold; /* Mettre le texte en gras */
+    color: #333; /* Couleur du texte */
+}
+
+.recommendation-image {
+    max-width: 100%; /* Largeur maximale pour éviter le débordement */
+    height: auto; /* Hauteur automatique pour maintenir le ratio */
+    border-radius: 8px; /* Coins arrondis pour l'image */
+}
+
+.recommendation-video {
+    width: 100%; /* Largeur de la vidéo */
+    border-radius: 8px; /* Coins arrondis pour la vidéo */
+    margin-top: 10px; /* Espace au-dessus de la vidéo */
+}
+
+
+
+</style>
+  <body>
+    <!-- preloader start -->
+    <div class="preloader">
+      <img src="{%static 'images/preloader.gif' %}" alt="preloader" />
+    </div>
+    <!-- preloader end -->
+
+    {% include "nav.html" %}
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="signupModal"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content rounded-0 border-0 p-4">
+          <div class="modal-header border-0">
+            <h3>Register</h3>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="login">
+              <form action="#" class="row">
+                <div class="col-12">
+                  <input
+                    type="text"
+                    class="form-control mb-3"
+                    id="signupPhone"
+                    name="signupPhone"
+                    placeholder="Phone"
+                  />
+                </div>
+                <div class="col-12">
+                  <input
+                    type="text"
+                    class="form-control mb-3"
+                    id="signupName"
+                    name="signupName"
+                    placeholder="Name"
+                  />
+                </div>
+                <div class="col-12">
+                  <input
+                    type="email"
+                    class="form-control mb-3"
+                    id="signupEmail"
+                    name="signupEmail"
+                    placeholder="Email"
+                  />
+                </div>
+                <div class="col-12">
+                  <input
+                    type="password"
+                    class="form-control mb-3"
+                    id="signupPassword"
+                    name="signupPassword"
+                    placeholder="Password"
+                  />
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">SIGN UP</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="loginModal"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content rounded-0 border-0 p-4">
+          <div class="modal-header border-0">
+            <h3>Login</h3>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="#" class="row">
+              <div class="col-12">
+                <input
+                  type="text"
+                  class="form-control mb-3"
+                  id="loginPhone"
+                  name="loginPhone"
+                  placeholder="Phone"
+                />
+              </div>
+              <div class="col-12">
+                <input
+                  type="text"
+                  class="form-control mb-3"
+                  id="loginName"
+                  name="loginName"
+                  placeholder="Name"
+                />
+              </div>
+              <div class="col-12">
+                <input
+                  type="password"
+                  class="form-control mb-3"
+                  id="loginPassword"
+                  name="loginPassword"
+                  placeholder="Password"
+                />
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">LOGIN</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- page title -->
+    <section
+      class="page-title-section overlay"
+      data-background="{% static 'images/backgrounds/page-title.jpg' %}"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <ul class="list-inline custom-breadcrumb mb-2">
+              <li class="list-inline-item">
+                <a
+                  class="h2 text-primary font-secondary"
+                  href="{% url 'listcourses' %}"
+                  >Evaluate your Stress</a
+                >
+              </li>
+            </ul>
+            <p class="text-lighten mb-0">Your Health Matters.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /page title -->
+
+    <!-- section -->
+    <section class="section-sm">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 mb-4">
+            <!-- course thumb -->
+            <img
+              src="{% static 'images/health.png'%}"
+              class="img-fluid w-100"
+            />
+          </div>
+        </div>
+        <!-- course info -->
+       
+        <!-- course details -->
+        <div class="row text-center justify-content-center">
+          <div class="col-12 mb-4">
+      
+            <h3>Your mental health is a priority, your happiness is essential, and your self-care is a necessity.</h3>
+            <h3 class="mb-3">Stress Test</h3>
+          </div>
+
+          <!-- teacher -->
+          <div class="col-12">
+          
+            <div
+              class="d-flex justify-content-between align-items-center flex-wrap"
+            >
+              <div class="media mb-2 mb-sm-0">
+               
+                <div class="media-body">
+                  
+                  <h4>Here are our recommendations for your mental well-being :</h4>
+
+                  {% if recommendations %}
+                      <div class="recommendations-container">
+                          {% for recommendation in recommendations %}
+                              <div class="recommendation-card">
+                                  <p class="recommendation-text">{{ recommendation.text }}</p>
+                                  {% if recommendation.image %}
+                                      <img src="{{ recommendation.image }}" alt="{{ recommendation.text }}" class="recommendation-image" />
+                                  {% elif recommendation.video %}
+                                      <iframe width="100%" height="315" src="{{ recommendation.video }}" frameborder="0" allowfullscreen></iframe>
+                                  {% endif %}
+                              </div>
+                          {% endfor %}
+                      </div>
+                  {% else %}
+                      <p>Aucune recommandation disponible.</p>
+                  {% endif %}
+                  
+                  
+
+
+
+              </div>
+             
+            </div>
+            <div class="border-bottom border-primary mt-4"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /section -->
+
+    {% include 'footer.html'%} {% include 'script.html'%}
+  </body>
+</html>
