@@ -28,7 +28,8 @@ urlpatterns = [
 path("cours/", include("cours.urls")),
 
 
-
+ path('stress/', include('stress_management.urls')),  # Assure-toi que cela est correct
+  
 
     
       ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)   

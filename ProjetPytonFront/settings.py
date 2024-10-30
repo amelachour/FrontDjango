@@ -44,6 +44,7 @@ INSTALLED_APPS = [
      'authentication',
 
     'cours',
+    'stress_management',
 
 ]
 
