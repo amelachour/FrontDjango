@@ -1,0 +1,156 @@
+<!-- Inclusion du header -->
+{% include 'header.html' %}
+{% include 'nav.html' %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashcards = document.querySelectorAll('.flashcard');
+            const timerDisplay = document.getElementById('timer');
+            const nextButton = document.getElementById('next-button');
+            let currentIndex = 0;
+            let timer;
+            const questionTime = 8000; // Temps d'affichage de la question en millisecondes
+            const answerTime = 5000;    // Temps d'affichage de la réponse en millisecondes
+
+            function startTimer(duration) {
+                let timeLeft = duration / 1000; // Convertir en secondes
+                timerDisplay.textContent = timeLeft;
+                timer = setInterval(() => {
+                    timeLeft--;
+                    timerDisplay.textContent = timeLeft;
+
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                    }
+                }, 1000);
+            }
+
+            function showNextFlashcard() {
+                if (currentIndex < flashcards.length) {
+                    flashcards[currentIndex].style.display = 'block';
+                    startTimer(questionTime);
+
+                    setTimeout(() => {
+                        clearInterval(timer);
+                        flashcards[currentIndex].querySelector('.answer').style.display = 'block';
+                        timerDisplay.textContent = ''; // Masquer le timer
+
+                        setTimeout(() => {
+                            flashcards[currentIndex].style.display = 'none';
+                            currentIndex++;
+                            showNextFlashcard();
+                        }, answerTime);
+                    }, questionTime);
+                } else {
+                    timerDisplay.textContent = "Fin des flashcards !"; // Message de fin
+                }
+            }
+
+            nextButton.addEventListener('click', () => {
+                if (currentIndex < flashcards.length) {
+                    clearInterval(timer); // Stopper le timer en cas de saut
+                    flashcards[currentIndex].style.display = 'none'; // Cacher la carte actuelle
+                    currentIndex++; // Passer à la suivante
+                    if (currentIndex < flashcards.length) {
+                        showNextFlashcard(); // Afficher la prochaine carte
+                    } else {
+                        timerDisplay.textContent = "Fin des flashcards !"; // Message de fin
+                    }
+                }
+            });
+
+            showNextFlashcard(); // Démarrer la séquence
+        });
+    </script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        #flashcard-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        #flashcard-container:hover {
+            transform: scale(1.02);
+        }
+        .flashcard {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            background-color: #e9ecef;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            animation: fadeIn 0.5s ease;
+        }
+        .flashcard:hover {
+            background-color: #d1e7dd;
+            transform: translateY(-5px);
+        }
+        .answer {
+            display: none;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007bff;
+        }
+        #timer {
+            text-align: center;
+            font-size: 24px;
+            color: #dc3545; /* Couleur rouge pour le timer */
+            margin-bottom: 20px;
+        }
+        #next-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        #next-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Flashcards</h1>
+    <div id="timer"></div>
+    <div id="flashcard-container">
+        {% for flashcard in flashcards %}
+        <div class="flashcard" style="display: none;">
+            <p><strong>Question:</strong> {{ flashcard.question }}</p>
+            <p class="answer"><strong>Réponse:</strong> {{ flashcard.answer }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <button id="next-button">Passer à la question suivante</button>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+    <!-- Inclusion du footer -->
+    {% include 'footer.html' %}

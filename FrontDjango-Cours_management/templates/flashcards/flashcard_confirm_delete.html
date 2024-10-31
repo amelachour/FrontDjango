@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Flashcard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f9fc;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            
+          
+        }
+        .flashcard-delete {
+            max-width: 450px;
+            padding: 30px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 0.6s ease-in-out;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            
+        }
+        .flashcard-delete::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #f44336, #e91e63, #9c27b0, #673ab7);
+            border-radius: 12px;
+            z-index: -1;
+            filter: blur(8px);
+            
+        }
+        .flashcard-delete h1 {
+            color: #dc3545;
+            font-weight: bold;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .flashcard-delete h1 i {
+            margin-right: 10px;
+        }
+        .flashcard-delete hr {
+            border-top: 1px solid #ddd;
+            margin: 20px 0;
+        }
+        .flashcard-delete p {
+            font-size: 1.1em;
+            color: #444;
+            margin-bottom: 15px;
+        }
+        .flashcard-delete strong {
+            color: #007bff;
+        }
+        .btn {
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-size: 1em;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin: 5px;
+        }
+        .btn-danger {
+            background-color: #e63946;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-danger:hover {
+            background-color: #d62839;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.4);
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
+        }
+        .btn i {
+            margin-right: 8px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+{% include 'header.html' %}
+
+<!-- Section du titre de page -->
+<section class="page-title-section overlay" data-background="{% static 'images/backgrounds/page-title.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ul class="list-inline custom-breadcrumb mb-2">
+                    <li class="list-inline-item">
+                        <a class="h2 text-primary font-secondary" href="">Home</a>
+                    </li>
+                    <li class="list-inline-item text-white h3 font-secondary nasted">Revision</li>
+                </ul>
+                <p class="text-lighten mb-0">Our revision sessions strike a perfect balance between the ongoing feedback preferred by certain institutions and the focus on comprehensive evaluations found in others.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'nav.html' %}
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="flashcard-delete text-center p-4" style="max-width: 600px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
+        <h1><i class="fas fa-exclamation-triangle"></i> Delete Flashcard</h1>
+        <hr>
+        <p>Are you sure you want to delete this flashcard?</p>
+        <p><strong>Question:</strong> {{ object.question }}</p>
+        <p><strong>Answer:</strong> {{ object.answer }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i> Confirm Delete
+            </button>
+            <a href="{% url 'flashcards:flashcard-list' %}" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </form>
+    </div>
+</div>
+
+
+<!-- Inclusion du footer -->
+{% include 'footer.html' %}
+{% include 'script.html' %}
+</body>
+</html>
+
+

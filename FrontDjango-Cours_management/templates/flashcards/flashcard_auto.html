@@ -1,0 +1,798 @@
+<!-- templates/index.html -->
+
+<!-- templates/index.html -->
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Flashcards</title>
+    
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        textarea, input[type=number] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .flashcards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .card {
+            width: 18rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.02);
+        }
+        .card-body {
+            position: relative;
+        }
+        .answer {
+            display: none;
+            margin-top: 10px;
+            color: #555;
+        }
+        .card.active .answer {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generate Flashcards</h1>
+    <form id="flashcardForm" method="POST">
+        {% csrf_token %}
+        <textarea id="text" name="text" placeholder="Enter text here..." required></textarea><br>
+        <input type="number" id="num_flashcards" name="num_flashcards_limit" placeholder="Number of Flashcards" required min="1"><br>
+        <button type="submit">Generate Flashcards</button>
+    </form>
+    <div id="flashcards" class="flashcards-container"></div>-->
+
+    <!-- Bootstrap JS and dependencies -->
+    <!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.getElementById('flashcardForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const text = document.getElementById('text').value;
+            const num_flashcards = document.getElementById('num_flashcards').value;
+            const csrfToken = getCookie('csrftoken');
+
+            try {
+                const response = await fetch('/generate_flashcards/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken  // Inclure le token CSRF
+                    },
+                    body: JSON.stringify({ text, num_flashcards_limit: num_flashcards }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Unknown error occurred while generating flashcards.');
+                }
+
+                const data = await response.json();
+                const flashcardsDiv = document.getElementById('flashcards');
+                flashcardsDiv.innerHTML = '';
+
+                if (data.flashcards && data.flashcards.length > 0) {
+                    data.flashcards.forEach(flashcard => {
+                        const card = document.createElement('div');
+                        card.className = 'card';
+
+                        const cardBody = document.createElement('div');
+                        cardBody.className = 'card-body';
+
+                        const question = document.createElement('h5');
+                        question.className = 'card-title';
+                        question.textContent = flashcard.question;
+
+                        const answer = document.createElement('p');
+                        answer.className = 'card-text answer';
+                        answer.textContent = flashcard.answer;
+
+                        cardBody.appendChild(question);
+                        cardBody.appendChild(answer);
+                        card.appendChild(cardBody);
+
+                        // Ajouter un gestionnaire d'événements pour afficher la réponse au clic
+                        card.addEventListener('click', function() {
+                            this.classList.toggle('active');
+                        });
+
+                        flashcardsDiv.appendChild(card);
+                    });
+                } else {
+                    flashcardsDiv.innerHTML = '<p>No flashcards generated.</p>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`Error: ${error.message}`);
+            }
+        };
+
+        // Fonction pour obtenir le token CSRF depuis les cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Vérifie si ce cookie commence par le nom souhaité
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>-->
+<!-- templates/index.html -->
+
+<!-- templates/index.html -->
+
+<!-- templates/index.html -->
+
+<!-- templates/index.html -->
+
+<!-- flashcards/templates/flashcards/index.html -->
+
+<!-- flashcards/templates/flashcards/generate_flashcards.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Flashcards</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #fffbea; /* Arrière-plan jaune très pâle */
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 400;
+            font-size: 8px; /* Ajustement de la taille de la police */
+        }
+        
+        /* Styles pour le formulaire */
+        form {
+            max-width: 600px;
+            margin: 20px auto; /* Centrage et marges */
+            padding: 20px;
+            background: #fff; /* Fond blanc pour le formulaire */
+            border: 2px solid #ffe7a0; /* Bordure jaune */
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        textarea, input[type=number], input[type=text], select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ffe7a0; /* Bordure jaune */
+            border-radius: 4px;
+        }
+
+        /* Styles pour les boutons */
+        button {
+            padding: 10px 20px;
+            background: #ffc107; /* Jaune pour le bouton */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s; /* Transition douce */
+        }
+        button:hover {
+            background: #e0a800; /* Jaune foncé au survol */
+        }
+
+        /* Styles pour les cartes */
+ /* Styles pour les cartes */
+ .flashcards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+        .card {
+            width: 18rem;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            background-color: #fffdf5; /* Fond blanc cassé pour les cartes */
+            border: 1px solid #ffc107; /* Bordure jaune */
+            border-radius: 12px;
+        }
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Face avant */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .card-front {
+            background-color: #ffc107; /* Couleur jaune pour le recto */
+            color: #fff;
+        }
+
+        /* Face arrière avec différentes couleurs */
+        .card-back {
+            background-color: #f0f4ff; /* Couleur bleue pour la réponse */
+            color: #333;
+            transform: rotateY(180deg);
+        }
+
+        /* Styles supplémentaires */
+        .input-section {
+            display: none;
+        }
+        #timer {
+            display: none;
+            text-align: center;
+            font-size: 2em;
+            color: #ffc107; /* Couleur jaune pour le chronomètre */
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin: 20px 0;
+        }
+
+        .form-check {
+            transition: transform 0.3s, background-color 0.3s;
+            border: 2px solid transparent; /* Bordure par défaut */
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer; /* Curseur pointeur pour une meilleure interactivité */
+        }
+
+        .form-check:hover {
+            transform: scale(1.05); /* Agrandissement au survol */
+            background-color: #f0f8ff; /* Couleur de fond au survol */
+            border-color: #007bff; /* Changer la couleur de la bordure */
+        }
+
+        .form-check-input:checked + .form-check-label {
+            color: #007bff; /* Couleur du texte sélectionné */
+            font-weight: bold; /* Mettre en gras le texte sélectionné */
+        }
+
+        .form-check-input {
+            margin-right: 10px; /* Espace à droite des boutons radio */
+        }
+        .back-button .btn {
+            font-weight: 600;
+            background-color: #f7b733;
+            color: #fff;
+            border-radius: 50px;
+            transition: 0.3s;
+            padding: 12px 20px; 
+            font-size: 1em;
+            float: right; 
+            
+        }
+    </style>
+</head>
+<body>
+{% include 'header.html' %}
+
+<section class="page-title-section overlay" data-background="{% static 'images/backgrounds/page-title.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ul class="list-inline custom-breadcrumb mb-2">
+                    <li class="list-inline-item">
+                        <a class="h2 text-primary font-secondary" href="">Home</a>
+                    </li>
+                    <li class="list-inline-item text-white h3 font-secondary nasted">Revision</li>
+                </ul>
+                <p class="text-lighten mb-0">Our revision sessions strike a perfect balance between the ongoing feedback preferred by certain institutions and the focus on comprehensive evaluations found in others.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'nav.html' %}
+<div class="container py-5">
+    <div>
+        <h2>Generate Flashcards</h2>
+    </div>
+    
+
+
+
+<!-- Chronomètre -->
+<div id="timer">10</div>
+
+<form id="flashcardForm" method="POST">
+    {% csrf_token %}
+    <!-- Sélection de l'option : Texte, Thème ou Test -->
+    <div class="container ">
+        <div class="form-group" style="text-align: center;">
+            
+            <label >Choose input method</label><br>
+            
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="input_method" id="inputText" value="text" checked>
+                <label class="form-check-label" for="inputText">Text</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="input_method" id="inputTheme" value="theme">
+                <label class="form-check-label" for="inputTheme">Theme</label>
+            </div>
+            <div class="form-check form-check-inline"> 
+                <input class="form-check-input" type="radio" name="input_method" id="inputTest" value="test" onchange="redirectToFlashcards()">
+                <label class="form-check-label" for="inputTest">Test my knowledge</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section pour entrer le texte -->
+    <div id="textSection" class="input-section">
+        <textarea id="text" name="text" placeholder="Enter your text..."></textarea>
+    </div>
+
+    <!-- Section pour entrer le thème -->
+    <div id="themeSection" class="input-section">
+        <input type="text" id="theme" name="theme" placeholder="Enter your theme (ex. : Big Data)">
+    </div>
+
+    <!-- Section pour entrer le thème en mode test -->
+    <div id="testSection" class="input-section">
+        <!-- Pas besoin de choisir un thème en mode test -->
+    </div>
+
+    <!-- Champ pour spécifier le nombre de flashcards -->
+    <input type="number" id="num_flashcards" name="num_flashcards_limit" placeholder="Number of Flashcards" required min="1">
+
+    <button type="submit">Generate Flashcards</button>
+</form>
+
+<div id="flashcards" class="flashcards-container"></div>
+<div class="back-button">
+    <a href="{% url 'flashcards:flashcard-list' %}" class="btn">
+        <i class="fas fa-arrow-left"></i> Back to flashcards list
+    </a>
+</div>
+<br><br>
+</div>
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!--div>
+<script>
+    // Fonction pour afficher la section appropriée en fonction de l'option sélectionnée
+    function toggleInputSections() {
+        const inputMethod = document.querySelector('input[name="input_method"]:checked').value;
+        document.getElementById('textSection').style.display = inputMethod === 'text' ? 'block' : 'none';
+        document.getElementById('themeSection').style.display = inputMethod === 'theme' ? 'block' : 'none';
+        document.getElementById('testSection').style.display = inputMethod === 'test' ? 'block' : 'none';
+    }
+
+    // Initialiser l'affichage au chargement de la page
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleInputSections();
+
+        // Ajouter des écouteurs d'événements pour les boutons radio
+        const inputMethods = document.querySelectorAll('input[name="input_method"]');
+        inputMethods.forEach(function(input) {
+            input.addEventListener('change', toggleInputSections);
+        });
+    });
+
+    // Gestion de la soumission du formulaire
+    document.getElementById('flashcardForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const inputMethod = document.querySelector('input[name="input_method"]:checked').value;
+        const num_flashcards = document.getElementById('num_flashcards').value;
+        let payload = { input_method: inputMethod, num_flashcards_limit: num_flashcards };
+        let isTestMode = false;
+
+        if (inputMethod === 'text') {
+            payload.text = document.getElementById('text').value;
+        } else if (inputMethod === 'theme') {
+            payload.theme = document.getElementById('theme').value;
+        } else if (inputMethod === 'test') {
+            isTestMode = true;
+        }
+
+        const response = await fetch('generate_flashcards/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}' // Ajout du jeton CSRF
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (response.ok) {
+            const flashcards = await response.json();
+            displayFlashcards(flashcards);
+            startTimer(10); // Démarre le chronomètre à 10 secondes pour le mode test
+        } else {
+            alert('Erreur lors de la génération des flashcards.');
+        }
+    };
+
+    // Affichage des flashcards
+    function displayFlashcards(flashcards) {
+        const flashcardsContainer = document.getElementById('flashcards');
+        flashcardsContainer.innerHTML = ''; // Efface le contenu précédent
+        flashcards.forEach((flashcard) => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+
+            const cardInner = document.createElement('div');
+            cardInner.classList.add('card-inner');
+
+            const cardFront = document.createElement('div');
+            cardFront.classList.add('card-front');
+            cardFront.innerText = flashcard.question;
+
+            const cardBack = document.createElement('div');
+            cardBack.classList.add('card-back');
+            cardBack.innerText = flashcard.answer;
+
+            cardInner.appendChild(cardFront);
+            cardInner.appendChild(cardBack);
+            card.appendChild(cardInner);
+            flashcardsContainer.appendChild(card);
+        });
+    }
+
+    // Démarre le chronomètre
+    function startTimer(duration) {
+        const timerDisplay = document.getElementById('timer');
+        timerDisplay.style.display = 'block'; // Affiche le chronomètre
+        let timeRemaining = duration;
+
+        const countdown = setInterval(() => {
+            timerDisplay.innerText = timeRemaining;
+            if (timeRemaining <= 0) {
+                clearInterval(countdown);
+                timerDisplay.style.display = 'none'; // Cache le chronomètre
+                alert('Temps écoulé !');
+                // Optionnel : Masquez les flashcards ici si nécessaire
+            }
+            timeRemaining--;
+        }, 1000);
+    }
+         ///fct pour rediriger vers le test
+         function redirectToFlashcards() {
+         // Remplacez le lien par le nom de chemin Django
+            window.location.href = "{% url 'flashcards:display-flashcards' %}";}
+</script>
+<--/div-->
+<script>
+    // Fonction pour afficher la section appropriée en fonction de l'option sélectionnée
+    function toggleInputSections() {
+        const inputMethod = document.querySelector('input[name="input_method"]:checked').value;
+        const textSection = document.getElementById('textSection');
+        const themeSection = document.getElementById('themeSection');
+        const testSection = document.getElementById('testSection');
+
+        if (inputMethod === 'text') {
+            textSection.style.display = 'block';
+            themeSection.style.display = 'none';
+            testSection.style.display = 'none';
+        } else if (inputMethod === 'theme') {
+            textSection.style.display = 'none';
+            themeSection.style.display = 'block';
+            testSection.style.display = 'none';
+        } else if (inputMethod === 'test') {
+            textSection.style.display = 'none';
+            themeSection.style.display = 'none';
+            testSection.style.display = 'block';
+        }
+    }
+
+    // Initialiser l'affichage au chargement de la page
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleInputSections();
+        loadSavedFlashcards();  // Charger les flashcards sauvegardées
+
+        // Ajouter des écouteurs d'événements pour les boutons radio
+        const inputMethods = document.querySelectorAll('input[name="input_method"]');
+        inputMethods.forEach(function(input) {
+            input.addEventListener('change', toggleInputSections);
+        });
+    });
+
+    // Gestion de la soumission du formulaire
+    document.getElementById('flashcardForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const inputMethod = document.querySelector('input[name="input_method"]:checked').value;
+        const num_flashcards = document.getElementById('num_flashcards').value;
+        let payload = { input_method: inputMethod, num_flashcards_limit: num_flashcards };
+        let isTestMode = false;
+
+        if (inputMethod === 'text') {
+            const text = document.getElementById('text').value;
+            payload.text = text;
+        } else if (inputMethod === 'theme') {
+            const theme = document.getElementById('theme').value;
+            payload.theme = theme;
+        } else if (inputMethod === 'test') {
+            // En mode test, pas besoin de choisir un thème
+            isTestMode = true;
+        }
+
+        const csrfToken = getCookie('csrftoken');
+
+        if (isTestMode) {
+            // Afficher le chronomètre initial (10 secondes) avant de commencer le test
+            const initialTimerDiv = document.getElementById('initialTimer');
+            initialTimerDiv.style.display = 'block';
+            let timeLeft = 10; // 10 secondes
+
+            initialTimerDiv.textContent = `Début du test dans ${timeLeft} secondes`;
+            const countdown = setInterval(() => {
+                timeLeft--;
+                initialTimerDiv.textContent = `Début du test dans ${timeLeft} secondes`;
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    initialTimerDiv.style.display = 'none';
+                    submitFlashcardForm(payload, csrfToken, true); // Passer le flag isTestMode=true
+                }
+            }, 1000);
+        } else {
+            // Soumettre immédiatement
+            submitFlashcardForm(payload, csrfToken, false);
+        }
+    };
+
+    // Fonction pour soumettre le formulaire
+    async function submitFlashcardForm(payload, csrfToken, isTestMode) {
+        try {
+            const response = await fetch('{% url "flashcards:generate_flashcards" %}', {  // Utiliser le namespace
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken  // Inclure le token CSRF
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Unknown error occurred while generating flashcards.');
+            }
+
+            const data = await response.json();
+
+            if (isTestMode) {
+                // Lancer le mode test avec les flashcards récupérées
+                startTestMode(data.flashcards);
+            } else {
+                // Afficher les flashcards normalement
+                const flashcardsDiv = document.getElementById('flashcards');
+flashcardsDiv.innerHTML = '';
+
+if (data.flashcards && data.flashcards.length > 0) {
+    data.flashcards.forEach(flashcard => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const cardInner = document.createElement('div');
+        cardInner.className = 'card-inner';
+
+        const cardFront = document.createElement('div');
+        cardFront.className = 'card-front';
+        cardFront.textContent = flashcard.question;
+
+        const cardBack = document.createElement('div');
+        cardBack.className = 'card-back';
+        cardBack.textContent = flashcard.answer;
+
+        cardInner.appendChild(cardFront);
+        cardInner.appendChild(cardBack);
+        card.appendChild(cardInner);
+
+        flashcardsDiv.appendChild(card);
+    });
+
+    loadSavedFlashcards();  // Recharger les flashcards sauvegardées
+} else {
+    flashcardsDiv.innerHTML = '<p>No flashcards generated.</p>';
+}}
+        } catch (error) {
+            console.error('Error:', error);
+            alert(`Error: ${error.message}`);
+        }
+    }
+
+    // Fonction pour démarrer le mode test
+    function startTestMode(flashcards) {
+        if (!flashcards || flashcards.length === 0) {
+            alert('No flashcards available for the test.');
+            return;
+        }
+
+        let currentIndex = 0;
+        const total = flashcards.length;
+
+        const testFlashcardDiv = document.getElementById('testFlashcard');
+        const testQuestion = document.getElementById('testQuestion');
+        const testAnswer = document.getElementById('testAnswer');
+
+        testFlashcardDiv.style.display = 'block';
+
+        function showNextFlashcard() {
+            if (currentIndex >= total) {
+                alert('Test completed!');
+                testFlashcardDiv.style.display = 'none';
+                return;
+            }
+
+            const flashcard = flashcards[currentIndex];
+            testQuestion.textContent = flashcard.question;
+            testAnswer.textContent = flashcard.answer;
+            testAnswer.style.display = 'none';
+
+            let timeLeft = 5; // Temps en secondes avant d'afficher la réponse
+
+            const timerDiv = document.getElementById('timer');
+            timerDiv.style.display = 'block';
+            timerDiv.textContent = `Réponse dans ${timeLeft} secondes`;
+
+            const countdown = setInterval(() => {
+                timeLeft--;
+                timerDiv.textContent = `Réponse dans ${timeLeft} secondes`;
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    timerDiv.style.display = 'none';
+                    testAnswer.style.display = 'block';
+                    currentIndex++;
+                    // Attendre 3 secondes avant de passer au flashcard suivant
+                    setTimeout(showNextFlashcard, 3000);
+                }
+            }, 1000);
+        }
+
+        showNextFlashcard();
+    }
+
+    // Fonction pour obtenir le token CSRF depuis les cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Vérifie si ce cookie commence par le nom souhaité
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Fonction pour charger et afficher les flashcards sauvegardées
+    async function loadSavedFlashcards() {
+        try {
+            const response = await fetch('{% url "flashcards:list_flashcards" %}');  // Utiliser le namespace
+            if (!response.ok) {
+                throw new Error('Failed to fetch saved flashcards.');
+            }
+            const data = await response.json();
+            const savedFlashcardsDiv = document.getElementById('savedFlashcards');
+            savedFlashcardsDiv.innerHTML = '';
+
+            if (data.flashcards && data.flashcards.length > 0) {
+                data.flashcards.forEach(flashcard => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+
+                    const cardBody = document.createElement('div');
+                    cardBody.className = 'card-body';
+
+                    const question = document.createElement('h5');
+                    question.className = 'card-title';
+                    question.textContent = flashcard.question;
+
+                    const answer = document.createElement('p');
+                    answer.className = 'card-text answer';
+                    answer.textContent = flashcard.answer;
+
+                    cardBody.appendChild(question);
+                    cardBody.appendChild(answer);
+                    card.appendChild(cardBody);
+
+                    // Ajouter un gestionnaire d'événements pour afficher la réponse au clic
+                    card.addEventListener('click', function() {
+                        this.classList.toggle('active');
+                    });
+
+                    savedFlashcardsDiv.appendChild(card);
+                });
+            } else {
+                savedFlashcardsDiv.innerHTML = '<p>No saved flashcards.</p>';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert(`Error: ${error.message}`);
+        }
+    }
+     ///fct pour rediriger vers le test
+     function redirectToFlashcards() {
+            window.location.href = "{% url 'flashcards:display-flashcards' %}";
+            }
+</script>
+<!-- Inclusion du footer -->
+{% include 'footer.html' %}
+{% include 'script.html' %}
+</body>
+</html>

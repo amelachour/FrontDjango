@@ -1,0 +1,156 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if object %}Edit{% else %}Create{% endif %} a Flashcard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .flashcard-form {
+            max-width: 600px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 25px 30px;
+            border-radius: 16px;
+            background-color: #ffffff;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+        .flashcard-form:hover {
+            transform: translateY(-3px);
+        }
+        .flashcard-form h1 {
+            color: #007bff;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #4a4a4a;
+            font-size: 0.95rem;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            pointer-events: none;
+            transition: 0.3s ease;
+        }
+        .form-control {
+            border-radius: 12px;
+            font-size: 1rem;
+            padding: 12px;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+        .form-control:focus {
+            background-color: #eaf4ff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+        .btn {
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 5px;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+
+        }
+        .btn-success {
+            background-color: linear-gradient(45deg, #28a745, #218838);
+            color: white;
+            
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: scale(1.05);
+        }
+        .floating-label {
+            position: relative;
+            margin-top: 25px;
+        }
+        .form-control:not(:placeholder-shown) + label,
+        .form-control:focus + label {
+            top: -10px;
+            left: 12px;
+            font-size: 0.8rem;
+            color: #007bff;
+        }
+        footer {
+            margin-top: auto;
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+
+    <!-- Page Title -->
+    <section class="page-title-section overlay" data-background="{% static 'images/backgrounds/page-title.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <ul class="list-inline custom-breadcrumb mb-2">
+                        <li class="list-inline-item">
+                            <a class="h2 text-primary font-secondary" href="">Home</a>
+                        </li>
+                        <li class="list-inline-item text-white h3 font-secondary nasted">Revision</li>
+                    </ul>
+                    <p class="text-lighten mb-0">Our revision sessions strike a perfect balance between the ongoing feedback preferred by certain institutions and the focus on comprehensive evaluations found in others.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'nav.html' %}
+
+    <div class="flashcard-form">
+        <h1>{% if object %}Edit{% else %}Create{% endif %} a Flashcard</h1>
+        <hr>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group floating-label">
+                <input type="text" class="form-control" id="question" name="question" value="{{ form.question.value|default_if_none:'' }}" required placeholder=" " />
+                <label for="question">Question</label>
+            </div>
+            <div class="form-group floating-label">
+                <input type="text" class="form-control" id="answer" name="answer" value="{{ form.answer.value|default_if_none:'' }}" required placeholder=" " />
+                <label for="answer">Answer</label>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> {% if object %}Update{% else %}Create{% endif %}
+                </button>
+                <a href="{% url 'flashcards:flashcard-list' %}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+
+    {% include 'footer.html' %}
+    {% include 'script.html' %}
+</body>
+</html>
+
+
+  

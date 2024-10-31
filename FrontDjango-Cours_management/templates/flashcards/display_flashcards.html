@@ -1,0 +1,305 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        #flashcard-container {
+            max-width: 600px;
+            margin: 50px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            perspective: 1000px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            padding: 20px;
+            color: #fff;
+            
+        }
+        .flashcard-front {
+            background-color: #ffc107;
+        }
+        .flashcard-back {
+            background-color: #0c345f;
+            transform: rotateY(180deg);
+        }
+        #timer {
+            text-align: center;
+            font-size: 24px;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        .button-container button {
+            font-size: 20px;
+            color: #007bff;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .button-container button:hover {
+            color: #0056b3;
+        }
+        .progress {
+            height: 25px;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            background-color: #28a745;
+        }
+        .back-button .btn {
+            font-weight: 600;
+            background-color: #f7b733;
+            color: #fff;
+            border-radius: 50px;
+            transition: 0.3s;
+            padding: 12px 20px; 
+            font-size: 1em;
+            float: right; 
+            
+        }
+        .text-center {
+    margin: 20px 0; /* Ajuste l'espace autour du graphique */
+}
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+
+    <section class="page-title-section overlay" data-background="{% static 'images/backgrounds/page-title.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <ul class="list-inline custom-breadcrumb mb-2">
+                        <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="">Home</a></li>
+                        <li class="list-inline-item text-white h3 font-secondary nasted">Revision</li>
+                    </ul>
+                    <p class="text-lighten mb-0">Our revision sessions strike a perfect balance between the ongoing feedback preferred by certain institutions and the focus on comprehensive evaluations found in others.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'nav.html' %}
+    <div class="container py-5">
+    <h2 class="text-center">Flashcards</h2>
+    <div id="timer"></div>
+    <div id="flashcard-container">
+        {% for flashcard in flashcards %}
+        <div class="flashcard">
+            <div class="flashcard-inner">
+                <div class="flashcard-front">
+                    <p><strong>Question:</strong> {{ flashcard.question }}</p>
+                </div>
+                <div class="flashcard-back">
+                    <p><strong>Answer:</strong> {{ flashcard.answer }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="button-container">
+            <button id="back-button" title="Revenir à la question précédente"><i class="fas fa-chevron-left"></i> Back</button>
+            <button id="next-button" title="Passer à la question suivante">Skip <i class="fas fa-chevron-right"></i></button>
+            <button id="done-button" title="Terminer la session" style="display:none;"><i class="fas fa-check"></i> Done</button>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultModalLabel">Results</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>You got <span id="correct-answers"></span> out of {{ flashcards|length }} correct!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center" style="max-width: 220px; max-height: 220px; margin: 0 auto;">
+        <canvas id="progressChart" width="150" height="150" style="width: 100%; height: auto;"></canvas>
+        <div id="progress-percentage" class="text-center" style="font-size: 14px;">0%</div>
+    </div>
+    
+    
+    
+    <div class="back-button">
+        <a href="{% url 'flashcards:flashcard-list' %}" class="btn">
+            <i class="fas fa-arrow-left"></i> Back to flashcards list
+        </a>
+    </div>
+    <br><br>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const flashcards = document.querySelectorAll('.flashcard');
+    const timerDisplay = document.getElementById('timer');
+    const nextButton = document.getElementById('next-button');
+    const backButton = document.getElementById('back-button');
+    const doneButton = document.getElementById('done-button');
+    const progressPercentage = document.getElementById('progress-percentage');
+    let currentIndex = 0;
+    let timer;
+    const questionTime = 8000;
+    let correctAnswers = 0; // Compteur de réponses correctes
+
+    // Configuration du graphique
+    const ctx = document.getElementById('progressChart').getContext('2d');
+    const progressChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Correct', 'Incorrect'],
+            datasets: [{
+                label: 'Progression',
+                data: [0, flashcards.length], // Initialiser avec 0 correct
+                backgroundColor: ['#28a745', '#dc3545'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    function startTimer(duration) {
+        let timeLeft = duration / 1000;
+        timerDisplay.textContent = timeLeft;
+        timer = setInterval(() => {
+            timeLeft--;
+            timerDisplay.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+            }
+        }, 1000);
+    }
+
+    function updateProgressChart() {
+        const totalAnswers = flashcards.length;
+        const percentage = (correctAnswers / totalAnswers) * 100;
+        progressChart.data.datasets[0].data[0] = correctAnswers; // Réponses correctes
+        progressChart.data.datasets[0].data[1] = totalAnswers - correctAnswers; // Réponses incorrectes
+        progressChart.update();
+
+        // Mettre à jour le pourcentage affiché
+        progressPercentage.textContent = Math.round(percentage) + '%';
+    }
+
+    function showNextFlashcard() {
+        if (currentIndex < flashcards.length) {
+            flashcards[currentIndex].style.display = 'block';
+            startTimer(questionTime);
+
+            setTimeout(() => {
+                clearInterval(timer);
+                flashcards[currentIndex].classList.add('flipped');
+                timerDisplay.textContent = '';
+
+                // Afficher le bouton "Done" après que l'utilisateur a vu la réponse
+                doneButton.style.display = 'block';
+            }, questionTime);
+        } else {
+            timerDisplay.textContent = "End of flashcards !";
+            doneButton.style.display = 'block'; // Afficher le bouton "Done" à la fin
+        }
+    }
+
+    nextButton.addEventListener('click', () => {
+        if (currentIndex < flashcards.length) {
+            clearInterval(timer);
+            flashcards[currentIndex].style.display = 'none';
+            currentIndex++;
+            if (currentIndex < flashcards.length) {
+                showNextFlashcard();
+            } else {
+                timerDisplay.textContent = "End of flashcards !";
+                doneButton.style.display = 'block'; // Afficher le bouton "Done" à la fin
+            }
+        }
+    });
+
+    backButton.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            clearInterval(timer);
+            flashcards[currentIndex].style.display = 'none';
+            currentIndex--;
+            showNextFlashcard();
+        }
+    });
+
+    doneButton.addEventListener('click', () => {
+        correctAnswers++; // Incrémenter les réponses correctes
+        updateProgressChart(); // Mettre à jour le graphique
+        // Afficher la modal avec le nombre de réponses correctes
+        $('#resultModal').modal('show');
+        // Réinitialiser le jeu si nécessaire
+        currentIndex++;
+        timerDisplay.textContent = '';
+        doneButton.style.display = 'none'; // Cacher le bouton "Done"
+        flashcards.forEach(card => card.style.display = 'none'); // Cacher toutes les flashcards
+        showNextFlashcard(); // Recommencer
+    });
+
+    showNextFlashcard();
+});
+
+    </script>
+        {% include 'footer.html' %}
+        {% include 'script.html' %}
+</body>
+
+</html>
+

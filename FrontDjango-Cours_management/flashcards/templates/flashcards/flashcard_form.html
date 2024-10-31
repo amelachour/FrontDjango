@@ -1,0 +1,138 @@
+<!-- Inclusion du header -->
+{% include 'header.html' %}
+{% include 'nav.html' %}
+</br></br></br></br></br></br></br></br></br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if object %}Edit{% else %}Create{% endif %} a Flashcard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f9fc;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column; /* Changer l'orientation en colonne */
+            min-height: 100vh; /* Assure que le body remplit la hauteur de la fenêtre */
+        }
+        .flashcard-form {
+            max-width: 800px;
+            width: 100%;
+            margin: 20px auto; /* Centrer le formulaire horizontalement */
+            padding: 30px;
+            border-radius: 12px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+            transition: transform 0.3s;
+        }
+        .flashcard-form:hover {
+            transform: scale(1.02);
+        }
+        .flashcard-form h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .flashcard-form hr {
+            border-top: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #495057;
+        }
+        .form-control {
+            border-radius: 10px;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+        }
+        .btn {
+            border-radius: 30px;
+            font-weight: 600;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: scale(1.05);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .floating-label {
+            position: relative;
+        }
+        .floating-label label {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            color: #aaa;
+            transition: 0.2s ease all;
+        }
+        .form-control:focus + label,
+        .form-control:not(:placeholder-shown) + label {
+            top: -10px;
+            left: 10px;
+            font-size: 12px;
+            color: #007bff;
+        }
+        /* Style pour le footer */
+        footer {
+            margin-top: auto; /* Pousse le footer vers le bas */
+            background-color: #f8f9fa; /* Couleur de fond du footer */
+            text-align: center;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="flashcard-form">
+        <h1>{% if object %}Edit{% else %}Create{% endif %} a Flashcard</h1>
+        <hr>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group floating-label">
+                <input type="text" class="form-control" id="question" name="question" value="{{ form.question.value|default_if_none:'' }}" required placeholder=" " />
+                <label for="question">Question</label>
+            </div>
+            <div class="form-group floating-label">
+                <input type="text" class="form-control" id="answer" name="answer" value="{{ form.answer.value|default_if_none:'' }}" required placeholder=" " />
+                <label for="answer">Answer</label>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> {% if object %}Update{% else %}Create{% endif %}
+                </button>
+                <a href="{% url 'flashcards:flashcard-list' %}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+    <!-- Inclusion du footer -->
+    {% include 'footer.html' %}
+</body>
+</html>
+
+  
